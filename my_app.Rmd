@@ -1,0 +1,11 @@
+---
+title: "shiny"
+author: "Vincent Lin"
+date: "June 21, 2019"
+output: html_document
+---
+
+```{r,warning=FALSE,message=FALSE}
+library(shiny)
+runApp("my_app.R", display.mode = "showcase")
+```
