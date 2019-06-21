@@ -25,7 +25,7 @@ all_artist_lyrics <- function(artist_name){
 
  
  lyrics <- tibble()
- for (i in 1:2){
+ for (i in 1:length(song_links)){
    message(str_c("Scraping Song ", i, " of ", length(song_links)))
    
    #scrape the song lyrics
@@ -36,13 +36,14 @@ all_artist_lyrics <- function(artist_name){
    
    # format song for dataframe
    song_title <- song_titles[i] %>%
-     str_to_lower() %>%
+     str_to_upper() %>%
      gsub("[^[:alnum:] ]", "", .) %>%
-     gsub("[[:space:]]", "_", .)
+     gsub("[[:space:]]", " ", .)
    
    lyrics <- rbind(lyrics, tibble(text=lyrics_scraped, artist=artist_name, song=song_title))
  }
  return(lyrics)
 }
 
-all_artist_lyrics("Katy Perry")
+write.csv(all_artist_lyrics("Katy Perry"), file = "katy_perry.csv")
+
