@@ -1,3 +1,13 @@
+library(rvest) # web scraping
+library(stringr) # string manipulation
+library(dplyr) # data manipulation
+library(tidyr) # tidy data
+library(purrr) # functional programming
+library(scales) # formatting for rmd output
+library(ggplot2) # plots
+library(numbers) # divisors function
+library(textreuse) # detecting text reuse and document similarity
+
 # get beatles lyrics 
 links <- read_html("http://www.metrolyrics.com/beatles-lyrics.html") %>% # lyrics site
   html_nodes("td a") # get all links to all songs
