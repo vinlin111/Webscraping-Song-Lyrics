@@ -103,5 +103,3 @@ song_sim %>%
   kable() # pretty table
 ```
 
-
-
