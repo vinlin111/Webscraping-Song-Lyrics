@@ -1,5 +1,24 @@
+---
+title: "beatles_web_scraping"
+author: "Vincent Lin"
+date: "June 24, 2019"
+output: pdf_document
+---
 
+```{r}
+library(rvest) # web scraping
+library(stringr) # string manipulation
+library(dplyr) # data manipulation
+library(tidyr) # tidy data
+library(purrr) # functional programming
+library(scales) # formatting for rmd output
+library(ggplot2) # plots
+library(numbers) # divisors function
+library(textreuse) # detecting text reuse and document similarity
+library(kableExtra)
+```
 
+```{r}
 # get beatles lyrics 
 links <- read_html("http://www.metrolyrics.com/beatles-lyrics.html") %>% # lyrics site
   html_nodes("td a") # get all links to all songs
@@ -22,6 +41,7 @@ get_lyrics <- function(url){
     str_replace_all("[\r\n]" , ". ") %>% # remove newline chars
     return()
 }
+
 # get all the lyrics
 # remove duplicates and broken links
 songs %>%
@@ -31,20 +51,26 @@ songs %>%
   mutate(num_copy = n()) %>%
   filter(num_copy == 1) %>% # remove exact duplicates (by name)
   select(-num_copy) -> songs 
+```
 
+```{r}
 # get k = 5 shingles for "Eleanor Rigby"
 best_song <- songs %>% filter(name == "Eleanor Rigby") # this song is the best
 shingles <- tokenize_ngrams(best_song$lyrics, n = 5) # shingle the lyrics
 # inspect results
 head(shingles) %>%
   kable()
+```
 
+```{r}
 # get k = 3 shingles for "Eleanor Rigby"
 shingles <- tokenize_ngrams(best_song$lyrics, n = 3)
 # inspect results
 head(shingles) %>%
   kable()
+```
 
+```{r}
 songs %>%
   mutate(shingles = (map(lyrics, tokenize_ngrams, n = 3))) -> songs
 
@@ -60,14 +86,22 @@ song_sim <- expand.grid(song1 = seq_len(nrow(songs)), song2 = seq_len(nrow(songs
          song2 = songs$name[song2]) # store the names, not "id"
 # inspect results
 summary(song_sim)
+```
 
+```{r}
 # plot of similarity scores
 ggplot(song_sim) + # use ggplot2
   geom_raster(aes(song1, song2, fill = jaccard_sim)) + # tile plot
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 4), 
         axis.text.y = element_text(size = 4),
         aspect.ratio = 1)
+```
 
+```{r}
 song_sim %>%
   filter(jaccard_sim > .5) %>% # only look at those with similarity > .5
   kable() # pretty table
+```
+
+
+
