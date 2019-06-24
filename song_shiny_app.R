@@ -13,6 +13,8 @@ ui <- fluidPage(
   # current time
   h5(textOutput("current_time")),
   
+  textOutput("artist_summary"),
+  
   # app title
   titlePanel(" Similar Sounding Songs"),
 
@@ -40,6 +42,10 @@ server <- function(input, output, session){
   output$current_time <- renderText({
     invalidateLater(1000, session)
     paste(Sys.time())
+  })
+  
+  output$artist_summary <- renderText({
+    paste(get_links(input$artist))
   })
   
 }
