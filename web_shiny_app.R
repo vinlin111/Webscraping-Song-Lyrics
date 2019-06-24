@@ -1,6 +1,12 @@
 library(rvest)
 library(tidyverse)
 library(stringr)
+library(purrr)
+library(scales)
+library(ggplot2)
+library(numbers)
+library(textreuse) 
+library(kableExtra)
 
 all_artist_lyrics <- function(artist_name){
   artist <- artist_name %>%
