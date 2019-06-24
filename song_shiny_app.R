@@ -14,7 +14,7 @@ ui <- fluidPage(
   h5(textOutput("current_time")),
   
   # app title
-  titlePanel(" Similar Sounding Songs")
+  titlePanel(" Similar Sounding Songs"),
 
   
   
