@@ -23,14 +23,13 @@ get_links <- function(artist_name){
   return(songs)
 }
 
-get_links("katy perry")
-
 # function to extract lyric text from individual sites
 get_lyrics <- function(url){
   test <- try(url %>% read_html(), silent=T)
   if ("try-error" %in% class(test)) {
     # if you can't go to the link, return NA
     return(NA)
+    
   } else
     url %>% read_html() %>%
     html_nodes(".verse") %>% # this is the text
@@ -42,12 +41,19 @@ get_lyrics <- function(url){
     return()
 }
 
-# get all the lyrics
-# remove duplicates and broken links
-songs %>%
-  mutate(lyrics = (map_chr(url, get_lyrics))) %>%
-  filter(nchar(lyrics) > 0) %>% #remove broken links
-  group_by(name) %>% 
-  mutate(num_copy = n()) %>%
-  filter(num_copy == 1) %>% # remove exact duplicates (by name)
-  select(-num_copy) -> songs 
+all_lyrics <- function(song_tibble){
+  song_tibble <- song_tibble %>%
+    mutate(lyrics = (map_chr(url, get-lyrics))) %>%
+    filter(nchar(lyrics) > 0) %>%
+    group_by(name) %>%
+    mutate(num_copy = n()) %>%
+    filter(num_copy == 1) %>%
+    select(-num_copy)
+  return(song_tibble)
+}
+
+
+
+
+
+
