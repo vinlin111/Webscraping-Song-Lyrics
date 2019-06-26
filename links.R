@@ -43,7 +43,7 @@ get_lyrics <- function(url){
 
 all_lyrics <- function(song_tibble){
   song_tibble <- song_tibble %>%
-    mutate(lyrics = (map_chr(url, get-lyrics))) %>%
+    mutate(lyrics = (map_chr(url, get_lyrics))) %>%
     filter(nchar(lyrics) > 0) %>%
     group_by(name) %>%
     mutate(num_copy = n()) %>%
@@ -51,9 +51,5 @@ all_lyrics <- function(song_tibble){
     select(-num_copy)
   return(song_tibble)
 }
-
-
-
-
 
 

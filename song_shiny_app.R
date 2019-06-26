@@ -8,6 +8,9 @@ library(numbers)
 library(textreuse) 
 library(kableExtra)
 library(shiny)
+library(DT)
+
+source("links.R")
 
 ui <- fluidPage(
   # current time
@@ -18,7 +21,7 @@ ui <- fluidPage(
   # app title
   titlePanel(" Similar Sounding Songs"),
 
-  
+  DT::dataTableOutput("mytable"),
   
   sidebarLayout(
     
@@ -44,10 +47,9 @@ server <- function(input, output, session){
     paste(Sys.time())
   })
   
-  output$artist_summary <- renderText({
-    paste(get_links(input$artist))
+  output$mytable <- DT::renderDataTable({
+    get_links(input$artist)
   })
-  
 }
 
 shinyApp(ui, server)
